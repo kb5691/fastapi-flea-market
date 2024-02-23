@@ -1,8 +1,8 @@
 from fastapi import FastAPI
+from cruds import item as item_cruds
 
 app = FastAPI()
 
-# デコレーター(@の部分)
-@app.get("/test")
-async def example():
-  return {"message": "hello world"}
+@app.get("/items")
+async def find_all():
+  return item_cruds.find_all()
