@@ -28,3 +28,17 @@ items = [
 
 def find_all():
   return items
+
+def find_by_id(id: int):
+  for item in items:
+    if item.id == id:
+      return item
+  return None
+
+def find_by_name(name: str):
+  filtered_items = []
+
+  for item in items:
+    if name in item.name:
+      filtered_items.append(item)
+  return filtered_items
