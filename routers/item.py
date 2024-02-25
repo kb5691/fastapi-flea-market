@@ -1,5 +1,6 @@
-from fastapi import APIRouter, Body
+from fastapi import APIRouter
 from cruds import item as item_cruds
+from schemas import ItemCreate, ItemUpdate
 
 router = APIRouter(prefix="/items", tags=["Items"])
 
@@ -16,11 +17,11 @@ async def find_by_name(name: str):
   return item_cruds.find_by_name(name)
 
 @router.post("")
-async def create(item_create=Body()):
+async def create(item_create: ItemCreate):
   return item_cruds.create(item_create)
 
 @router.put("/{id}")
-async def update(id: int, item_update=Body()):
+async def update(id: int, item_update: ItemUpdate):
   return item_cruds.update(id, item_update)
 
 @router.delete("/{id}")

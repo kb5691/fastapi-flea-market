@@ -1,9 +1,5 @@
-from enum import Enum
 from typing import Optional
-
-class ItemStatus(Enum):
-  ON_SALE = "ON_SALE"
-  SOLD_OUT ="SOLD_OUT"
+from schemas import ItemCreate, ItemStatus, ItemUpdate
 
 class Item:
   def __init__(
@@ -21,7 +17,7 @@ class Item:
     self.status = status
 
 items = [
-  Item(1, "PC", 100000, "備品です", ItemStatus.ON_SALE),
+  Item(1, "PC", 100000, "美品です", ItemStatus.ON_SALE),
   Item(2, "スマートフォン", 50000, None, ItemStatus.ON_SALE),
   Item(3, "Python本", 1000, "使用感あり", ItemStatus.SOLD_OUT)
 ]
@@ -43,24 +39,24 @@ def find_by_name(name: str):
       filtered_items.append(item)
   return filtered_items
 
-def create(item_create):
+def create(item_create: ItemCreate):
   new_item = Item(
     len(items) + 1,
-    item_create.get("name"),
-    item_create.get("price"),
-    item_create.get("description"),
+    item_create.name,
+    item_create.price,
+    item_create.description,
     ItemStatus.ON_SALE
   )
   items.append(new_item)
   return new_item
 
-def update(id: int, item_update):
+def update(id: int, item_update: ItemUpdate):
   for item in items:
     if item.id == id:
-      item.name = item_update.get("name", item.name)
-      item.price = item_update.get("price", item.price)
-      item.description = item_update.get("description", item.description)
-      item.status = item_update.get("status", item.status)
+      item.name = item.name if item_update.name is None else item_update.name
+      item.price = item.price if item_update.price is None else item_update.price
+      item.description = item.description if item_update.description is None else item_update.description
+      item.status = item.status if item_update.status is None else item_update.status
       return item
   return None
 
