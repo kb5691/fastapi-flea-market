@@ -1,5 +1,6 @@
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, Enum, DateTime
+from sqlalchemy import Column, Integer, String, Enum, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
 from database import Base
 from schemas import ItemStatus
 
@@ -13,6 +14,9 @@ class Item(Base):
   status = Column(Enum(ItemStatus), nullable=False, default=ItemStatus.ON_SALE)
   created_at = Column(DateTime, default=datetime.now())
   update_at = Column(DateTime, default=datetime.now(), onupdate=datetime.now())
+  user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+
+  user = relationship("User", back_populates="items")
 
 class User(Base):
   __tablename__ = "users"
@@ -23,3 +27,5 @@ class User(Base):
   salt = Column(String, nullable=False)
   created_at = Column(DateTime, default=datetime.now())
   update_at = Column(DateTime, default=datetime.now(), onupdate=datetime.now())
+
+  items = relationship("Item", back_populates="user")
