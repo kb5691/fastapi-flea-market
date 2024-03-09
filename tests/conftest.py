@@ -18,13 +18,11 @@ from cruds.auth import get_current_user
 @pytest.fixture()
 def session_fixture():
   engine = create_engine(
-    url="sqlite://",
-    connect_args={"check_same_thread": False},
-    poolclass=StaticPool
+    url="sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool
   )
   Base.metadata.create_all(engine)
 
-  SessionLocal = sessionmaker(autocommit=False, autoflash=False, bind=engine)
+  SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
   db = SessionLocal()
 
   try:
@@ -40,7 +38,6 @@ def session_fixture():
 @pytest.fixture()
 def user_fixture():
   return DecodedToken(username="user1", user_id=1)
-
 
 @pytest.fixture()
 def client_fixture(session_fixture: Session, user_fixture: DecodedToken):
