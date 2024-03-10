@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field, ConfigDict
 
 class ItemStatus(Enum):
   ON_SALE = "ON_SALE"
-  SOLD_OUT ="SOLD_OUT"
+  SOLD_OUT = "SOLD_OUT"
 
 class ItemCreate(BaseModel):
   name: str = Field(min_length=2, max_length=20, examples=["PC"])

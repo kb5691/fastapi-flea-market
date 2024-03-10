@@ -13,8 +13,10 @@ class Item(Base):
   description = Column(String, nullable=True)
   status = Column(Enum(ItemStatus), nullable=False, default=ItemStatus.ON_SALE)
   created_at = Column(DateTime, default=datetime.now())
-  update_at = Column(DateTime, default=datetime.now(), onupdate=datetime.now())
-  user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+  updated_at = Column(DateTime, default=datetime.now(), onupdate=datetime.now())
+  user_id = Column(
+    Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+  )
 
   user = relationship("User", back_populates="items")
 
@@ -26,6 +28,6 @@ class User(Base):
   password = Column(String, nullable=False)
   salt = Column(String, nullable=False)
   created_at = Column(DateTime, default=datetime.now())
-  update_at = Column(DateTime, default=datetime.now(), onupdate=datetime.now())
+  updated_at = Column(DateTime, default=datetime.now(), onupdate=datetime.now())
 
   items = relationship("Item", back_populates="user")
